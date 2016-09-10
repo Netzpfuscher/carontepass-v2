@@ -80,9 +80,9 @@ DATABASES = {
 
 # Internationalization
 
-LANGUAGE_CODE = 'es-ES'
+LANGUAGE_CODE = 'en-GB'
 
-TIME_ZONE = 'Atlantic/Canary'
+TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 

@@ -1,2 +1,3 @@
 *.pyv
 *.sqlite3
+.idea

@@ -1,5 +1,6 @@
 #Personal configuration file
 
+DISABLE_PAYMENT_VALIDATION = True
 VALUE_PAYMENT_TRUE = 10
 MAX_GRANTED_DAYS = 5
 
