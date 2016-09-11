@@ -18,8 +18,10 @@ class DeviceSerializer(serializers.ModelSerializer):
 class DeviceResultSerializer(serializers.ModelSerializer):
     
     result = serializers.SerializerMethodField('is_auth_user')
-    
+
     def is_auth_user(self, Device):
+        if not Device.user.is_active:
+            return None
         if not DISABLE_PAYMENT_VALIDATION:
             # Check if the user has monthly payments
             month_actual = datetime.datetime.now().month
