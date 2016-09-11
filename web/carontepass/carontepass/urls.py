@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/1/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/1/device/(?P<code>.+)$', DeviceIDList.as_view()),
+    url(r'^api/1/node/(?P<node>\d+)/device/(?P<code>.+)$', DeviceIDList.as_view()),
     url(r'^commons/', include('commons.urls')),
     url(r'^accounts/profile/$', homepage, name='homepage'),
     url(r'^accounts/profile/info$', personal_info , name='personal_info'),

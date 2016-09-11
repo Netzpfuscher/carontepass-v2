@@ -84,7 +84,7 @@ class Log(models.Model):
         
         if(log_user_in_initial == 0 and log_user_in_end == 1):
             send_group_msg(True, str(Device.user.username))
-            
+
         elif(log_user_in_initial == 1 and log_user_in_end == 0):
             send_group_msg(False, str(Device.user.username))
            
@@ -203,7 +203,7 @@ class SecurityNode(models.Model):
     telegram = models.BooleanField(default=True)
 
     def __str__(self):
-        return '{}, ID: {} '.format(self.name, self.id)
+        return '{} ID: {} '.format(self.name, self.id)
 
 class Acl(models.Model):
     user = models.OneToOneField(User)

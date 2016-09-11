@@ -48,5 +48,3 @@ class DeviceResultSerializer(serializers.ModelSerializer):
     class Meta:
             model = Device
             fields = ('id', 'user', 'kind', 'code', 'result')
-            
-    

@@ -13,7 +13,7 @@
 
 const char* ssid     = "your-ssid";
 const char* password = "your-password";
-
+const char* nodeid = "node-id";
 
 const char* host = "server-ip";
 
@@ -55,7 +55,7 @@ Serial.println();
   }
   
   // We now create a URI for the request
-  String url = "/api/1/device/";
+  String url = "/api/1/node/" + nodeid + "/device/";
   url += tag[0];
   url += ".";
   url += tag[1];
