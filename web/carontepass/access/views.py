@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import Device, Log
+from .models import Device, Log, SecurityNode
 from .serializers import DeviceResultSerializer
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -23,11 +23,12 @@ class DeviceIDList(generics.ListAPIView):
     def get_queryset(self, **kwargs):
 
         code_id = self.kwargs['code']
-        
         Device.check_exists_device(code_id)
         
         return Device.objects.filter(code=code_id)
-        
+
+    def get_serializer_context(self):
+        return {'node_id': self.kwargs['node']}
         
 @login_required(login_url='/')
 def homepage(request):

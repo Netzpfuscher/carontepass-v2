@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from carontepass.settings_local import VALUE_PAYMENT_TRUE, MAX_GRANTED_DAYS, DISABLE_PAYMENT_VALIDATION
-from .models import Device, Payment, Log, Message
+from .models import Device, Payment, Log, Message, SecurityNode
 import datetime
 from django.contrib.auth.models import User
 
@@ -20,8 +20,17 @@ class DeviceResultSerializer(serializers.ModelSerializer):
     result = serializers.SerializerMethodField('is_auth_user')
 
     def is_auth_user(self, Device):
+        #First Check if the user is active
         if not Device.user.is_active:
             return None
+
+        #Next check if user can access the requested node
+        node_id = int(self.context.get('node_id'))
+        allowed_nodes = Device.user.acl.AllowedNodes.all().values_list('id', flat=True)
+        if not node_id in allowed_nodes:
+            return None
+
+        #If payment validation is on check user has paid up
         if not DISABLE_PAYMENT_VALIDATION:
             # Check if the user has monthly payments
             month_actual = datetime.datetime.now().month
@@ -41,8 +50,9 @@ class DeviceResultSerializer(serializers.ModelSerializer):
                     Log.checkentryLog(Device)
                     Message.message_detect_tag(Device)
                     return True;
+
+        #If payment validation isn't on and user passed all other tests allow access
         else:
-            #Payment validation disable any authed user can enter
             Log.checkentryLog(Device)
             Message.message_detect_tag(Device)
             return True
