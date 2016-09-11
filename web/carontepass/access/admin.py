@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from access.models import Message, Payment, Device, Log, Telegram
+from access.models import Message, Payment, Device, Log, Telegram, SecurityNode, Acl
 
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 
+class SecurityNodeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'kind', 'logging', 'telegram')
+    search_fields = ('id', 'name', 'kind', 'logging', 'telegram')
 
 class DeviceAdmin(admin.ModelAdmin): 
-  list_display = ('kind', 'user', 'code') 
+  list_display = ('kind', 'user', 'code')
   search_fields = ('user', 'code')
   list_filter = ('kind',) 
   
@@ -59,7 +62,13 @@ def persons(self):
     return ', '.join(['<a href="%s">%s</a>' % (reverse('admin:auth_user_change', args=(x.id,)), x.username) for x in self.user_set.all().order_by('username')])
 persons.allow_tags = True
 
+class AclInline(admin.TabularInline):
+    model = Acl
+    can_delete = False
+    verbose_name_plural = 'Acls'
+
 class UserAdmin(UserAdmin):
+    inlines = (AclInline, )
     list_display = ['username', 'email', 'first_name', 'last_name', 'is_active', staff, adm, roles]
     list_filter = ['groups', 'is_staff', 'is_superuser', 'is_active']
 
@@ -78,3 +87,4 @@ admin.site.register(Payment, PaymentAdmin)
 admin.site.register(Device, DeviceAdmin)
 admin.site.register(Log, LogAdmin)
 admin.site.register(Telegram, TelegramAdmin)
+admin.site.register(SecurityNode, SecurityNodeAdmin)

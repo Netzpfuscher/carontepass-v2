@@ -184,4 +184,27 @@ class Telegram(models.Model):
         return 'Telegram {}: {}'.format(self.user, self.chatid)
     
     
-        
+class SecurityNode(models.Model):
+    __tablename__ = 'cp_securitynode'
+
+    DOOR = 'Door'
+    TOOL = 'Tool'
+    NODE_CHOICES = (
+        (DOOR, 'DOOR'),
+        (TOOL, 'TOOL'),
+    )
+    name = models.CharField(max_length=50)
+    kind = models.CharField(max_length=4,
+                                      choices=NODE_CHOICES,
+                                      default=DOOR,
+                                      blank=False,
+                                      )
+    logging = models.BooleanField(default=True)
+    telegram = models.BooleanField(default=True)
+
+    def __str__(self):
+        return '{}, ID: {} '.format(self.name, self.id)
+
+class Acl(models.Model):
+    user = models.OneToOneField(User)
+    AllowedNodes = models.ManyToManyField(SecurityNode)
