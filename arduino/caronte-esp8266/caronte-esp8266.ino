@@ -30,7 +30,7 @@
 
 #define RST_PIN 0 // RST-PIN for RC522 - RFID - SPI - Module GPIO-0 
 #define SS_PIN  15  // SDA-PIN for RC522 - RFID - SPI - Module GPIO-15
-#define RELAY_PIN 16 // RELAY-PIN in GPI0-16
+#define RELAY_PIN D1 // RELAY-PIN in GPI0-16
 
 const char* ssid     = "your-ssid";
 const char* password = "your-password";
@@ -47,7 +47,7 @@ const char* host = "server-ip";
 
 const char* userpass = "xxxx";
 
-int tag[4];
+int tag[7];
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance
 
@@ -116,7 +116,7 @@ void loop() {
   }
   
   // We now create a URI for the request
-  String url = "/api/1/node/" + nodeid + "/device/";
+  String url = ("/api/1/node/") + nodeid + "/device/";
   url += tag[0];
   url += ".";
   url += tag[1];
@@ -124,6 +124,12 @@ void loop() {
   url += tag[2];
   url += ".";
   url += tag[3];
+  url += ".";
+  url += tag[4];
+  url += ".";
+  url += tag[5];
+  url += ".";
+  url += tag[6];
   
   Serial.print("Requesting URL: ");
   Serial.println(url);
