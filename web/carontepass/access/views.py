@@ -58,7 +58,6 @@ def global_charts(request):
         ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         week
     ]
-    
 
     #data_source = ModelDataSource(queryset, fields=['year', 'sales'])
 
